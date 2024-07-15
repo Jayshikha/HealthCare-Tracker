@@ -1,0 +1,43 @@
+<!-- // user input -->
+<div>
+ <form>
+<div class="userInput">
+    <div class="input">
+      <label for="UserName">User Name*</label>
+      <input
+        type="text"
+        id="userName"
+        placeholder="Enter Your Name"
+        name="UserName"
+        required
+      />
+    </div>
+    <div class="input">
+     
+      <label for="UserName">Workout Type</label>
+      <div class="workoutType">
+        <select id="choices" name="workoutType" required>
+          <option *ngFor="let single of workoutTypes; " [value]="single">{{ single }}</option>
+        </select>
+        
+      </div>
+    </div>
+    <div class="input">
+      <label for="UserName">Workout Minutes</label>
+      <input
+        type="text"
+        id="workoutTime"
+        placeholder="Enter Workout Time"
+        name="workoutTime"
+      />
+    </div>
+    <div class="btn">
+      <button class="btn" (click)="adduser($event)">Add Workout</button>
+      <!-- <button class="btn" (click)="adduser()">Add Workout</button> -->
+
+    </div>
+  </div>
+  </form>
+ 
+  </div>
+

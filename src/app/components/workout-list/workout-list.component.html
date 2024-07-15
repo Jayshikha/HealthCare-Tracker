@@ -1,0 +1,54 @@
+<div class="top">
+  <div class="search">
+    <input type="text"  id="userName" placeholder="Search by name" (input)="oninput($event)">
+  </div>
+  <div class="filter">     
+    <select id="choices" name="workoutType" required (change)="onChange($event)">
+      <option value="">--select Workout----</option>
+    <option *ngFor="let single of workoutTypes; " [value]="single">{{ single }}</option>
+  </select></div>
+</div>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Workouts</th>
+      <th>Number of Workouts</th>
+      <th>Total Number of Minutes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of users">
+      <td>{{ item.name }}</td>
+     
+      <td>{{ getworkoutcoma(item.id) }}</td>
+      
+      <td>{{ item.workouts.length }}</td>
+      <td>{{ getTotalMinutes(item.id) }}</td>
+
+    </tr>
+  </tbody>
+</table>
+<!-- <div class="btn">
+    <button>Previous</button>
+    <button *ngFor="let page in currentPage">{{page}}</button>
+    
+
+    <button onclick="nextpage()">Next</button>
+ </div> -->
+
+ <div class="page">
+  <label for="perPage">Items Per Page</label>
+  <select name="perPage" id="perPage" [(ngModel)]="itemsPerPage" (change)="onChangeItemsPerPage(itemsPerPage)">
+    <option value="5" [selected]="itemsPerPage === 5">5</option>
+    <option value="10" [selected]="itemsPerPage === 10">10</option>
+
+  </select>
+</div>
+<div class="pagination">
+  <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+  <button *ngFor="let page of [].constructor(totalPages); let i = index" (click)="currentPage = i + 1; fetchUsers()">
+    {{ i + 1 }}
+  </button>
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+</div>
