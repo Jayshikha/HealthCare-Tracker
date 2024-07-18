@@ -1,145 +1,131 @@
-// import { Component } from '@angular/core';
-// import { UserData } from '../../user-data';
-// import { LocalStorageItem } from '../../localStorage';
-import { CommonModule } from '@angular/common';
-//  import { Chart, registerables } from 'chart.js';
+// import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+// import { UserDataService } from '../../user-data.service';
+// import { User } from '../../user-data';
+// import { CommonModule } from '@angular/common';
+// import { FormsModule } from '@angular/forms';
+// // import Chart from 'chart.js/auto';
+// import{Chart, registerables} from 'chart.js'
 // Chart.register(...registerables);
-//  @Component({
+
+// @Component({
 //   selector: 'app-workout-chart',
 //   standalone: true,
-//   imports: [CommonModule],
+//   imports: [CommonModule, FormsModule],
 //   templateUrl: './workout-chart.component.html',
-//   styleUrl: './workout-chart.component.css'
+//   styleUrls: ['./workout-chart.component.css']
 // })
-// export class WorkoutChartComponent {
-//   localStorageItem: LocalStorageItem[] = [];
-//    chart: any;
+// export class WorkoutChartComponent implements OnInit {
+//   @ViewChild('barCanvas') private barCanvas!: ElementRef;
+//   barChart: any;
 
-//   constructor() {
-//     this.localStorageItem = UserData.map(item => new LocalStorageItem(item.id, item.name, item.workouts));
+//   users: User[] = [];
+//   uniqueWorkoutTypes = new Set<string>();
+
+//   constructor(private userDataService: UserDataService) {
+  
 //   }
-
-// public config: any = {
-//   type: 'bar',
-//   data: {
-//     labels: ['JAN', 'FEB', 'MAR', 'APRIL'], // Example labels
-//     datasets: [
-//       {
-//         label: 'Minutes',
-//         data:[
-//         0,10,20,30,40,50,60,70,80,90,100
-//         ],
-//         backgroundColor: 'rgba(0, 123, 255, 0.5)',
-//         borderColor: 'rgba(0, 123, 255, 1)',
-//         borderWidth: 1
-//       }
-//     ]
-//   },
-//   options: {
-//   //   scales: {
-//   //   //   y: {
-//   //   //     beginAtZero: true
-//   //   //   }
-//   //   // }
-//   // }
-//   aspectRatio:1,
-//   },
-// };
 
 
 //   ngOnInit(): void {
-//     this.chart = new Chart('MyChart',this.config)
+
+//     this.users = this.userDataService.getUsers();
+//     this.users.forEach(user => {
+//       user.workouts.forEach(workout => {
+//         this.uniqueWorkoutTypes.add(workout.type);  
+//       });
+//     });
+//     const workoutMinutes = this.users.flatMap(user => 
+//       user.workouts.map(workout => workout.minutes)
+//     );
+    
+    
+//     const uniqueWorkout = Array.from(this.uniqueWorkoutTypes);
+
+//     const config = {
+//       type: 'bar',
+//       data: {
+//         labels: uniqueWorkout.map(a=>a),
+//         datasets: [
+//           {
+//             label: 'Workout Count',
+//             backgroundColor: '#3e95cd',
+//             data: workoutMinutes.map(a=>a)
+//       }
+//     ]
 //   }
-
-//   // getTotalMinutes(workouts: { type: string; minutes: number }[]): number {
-//   //   return workouts.reduce((total, workout) => total + workout.minutes, 0);
-//   // // }
-
+//     };
+//   }
 // }
-import { Component, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { Chart } from 'chart.js';
-import { UserData, User, Workout } from '../../user-data';
-import { LocalStorageItem } from '../../localStorage';
+import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { UserDataService } from '../../user-data.service';
+import { User } from '../../user-data';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-workout-chart',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './workout-chart.component.html',
-  styleUrl: './workout-chart.component.css'
+  styleUrls: ['./workout-chart.component.css']
 })
-export class WorkoutChartComponent implements AfterViewInit {
-  localStorageItem: LocalStorageItem[] = [];
-  chart: any;
-  isBrowser: boolean;
+export class WorkoutChartComponent implements OnInit, AfterViewInit {
+  @ViewChild('barCanvas') private barCanvas!: ElementRef;
+  barChart: any;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    this.localStorageItem = UserData.map(item => new LocalStorageItem(item.id, item.name, item.workouts));
-    this.isBrowser = isPlatformBrowser(this.platformId);
+  users: User[] = [];
+  uniqueWorkoutTypes = new Set<string>();
+
+  constructor(private userDataService: UserDataService) { }
+
+  ngOnInit(): void {
+    this.users = this.userDataService.getUsers();
+    this.users.forEach(user => {
+      user.workouts.forEach(workout => {
+        this.uniqueWorkoutTypes.add(workout.type);
+      });
+    });
   }
+
   ngAfterViewInit(): void {
-    throw new Error('Method not implemented.');
+    this.createBarChart();
   }
 
-  // Transform the data to get total minutes per workout type for each user
-  transformData() {
-    const labels: string[] = [];
-    const data: number[] = [];
-    const backgroundColors: string[] = [];
+  createBarChart(): void {
+    const ctx = this.barCanvas.nativeElement.getContext('2d');
+    const uniqueWorkout = Array.from(this.uniqueWorkoutTypes);
 
-    // this.localStorageItem.forEach(user => {
-    //   user.workouts.forEach((workout: { type: any; minutes: any; }) => {
-    //     const label = `${user.name} - ${workout.type}`;
-    //     labels.push(label);
-    //     data.push(workout.minutes);
+    const workoutMinutes = uniqueWorkout.map(type => {
+      return this.users.reduce((total, user) => {
+        return total + user.workouts
+          .filter(workout => workout.type === type)
+          .reduce((sum, workout) => sum + workout.minutes, 0);
+      }, 0);
+    });
 
-    //   });
-    // });
-
-    // return { labels, data, backgroundColors };
-  // }
-
-  // Function to generate random color for each bar
-
-  const config: any = {
-    type: 'bar',
-    data: {
-      labels: [], // Placeholder for dynamic labels
-      datasets: [
-        {
-          label: 'Minutes',
-          data: [0,10,20,30,40,50,60],
-          backgroundColor:'rgba(0, 123, 255, 1)',
-          borderColor: 'rgba(0, 123, 255, 1)',
-          borderWidth: 1
-        }
-      ]
-    },
-    options: {
-      aspectRatio: 1,
-      scales: {
-        y: {
-          beginAtZero: true
+    const config: ChartConfiguration = {
+      type: 'bar' as ChartType,
+      data: {
+        labels: uniqueWorkout,
+        datasets: [
+          {
+            label: 'Workout Minutes',
+            backgroundColor: 'black',
+            data: workoutMinutes
+          }
+        ]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
         }
       }
-    },
-  };
+    };
 
-  // ngAfterViewInit(): void {
-  //   if (this.isBrowser) {
-  //     const transformedData = this.transformData();
-  //     this.config.data.labels = transformedData.labels;
-  //     this.config.data.datasets[0].data = transformedData.data;
-  //     this.config.data.datasets[0].backgroundColor = transformedData.backgroundColors;
-
-  //     const canvas = document.getElementById('MyChart') as HTMLCanvasElement;
-  //     if (canvas && canvas.getContext) {
-  //       this.chart = new Chart(canvas.getContext('2d')!, this.config);
-  //     } else {
-  //       console.error('Failed to create chart: canvas element or context not found');
-  //     }
-  //   }
-  // }
-}
+    this.barChart = new Chart(ctx, config);
+  }
 }
