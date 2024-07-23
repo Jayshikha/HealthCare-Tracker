@@ -1,0 +1,15 @@
+.row-1{
+    background: #774e77;
+    color: white;
+}
+.name:active{
+    border: 1px solid black;
+}
+.chart{
+    margin-top: 3rem;
+}
+.chart h2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

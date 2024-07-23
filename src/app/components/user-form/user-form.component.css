@@ -1,0 +1,42 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    margin: 61px 0px 52px 41px;
+    padding: 8rem 1rem 1rem 11rem;
+    background: #774e77;
+    border-radius: 221px 0px 221px 0px;
+    max-width: 1000px;
+    align-items: baseline;
+    color: white;
+}
+.heading{
+    padding: 0px 0px 0px 0px;
+}
+.userInput input{
+    margin: auto;
+    font-family: serif;
+    line-height: inherit;
+    padding: 15px;
+}
+
+
+.input{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 27px 20px 0px;
+}
+
+#userName{
+
+}
+.btn{
+    background: #ffffff;
+    border-radius: 16px;
+    margin-bottom: 29px;
+}
+
+label{
+    display: inline-block;
+    margin: 1px;
+
+}

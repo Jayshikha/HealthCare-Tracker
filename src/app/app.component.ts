@@ -8,11 +8,12 @@ import { UserData } from '../../src/app/user-data';
 import { Hash } from 'crypto';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import{NavbarComponent} from '../app/components/navbar/navbar.component'
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,UserFormComponent,WorkoutListComponent,WorkoutChartComponent],
+  imports: [RouterOutlet,NavbarComponent,UserFormComponent,WorkoutListComponent,WorkoutChartComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

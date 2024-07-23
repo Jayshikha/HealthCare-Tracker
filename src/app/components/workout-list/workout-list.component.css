@@ -1,0 +1,68 @@
+.conatiner{
+
+}
+.top{
+display: flex;
+justify-content: space-between;
+margin: 49px;
+}
+.search{
+
+}
+.filter{
+
+}
+.heading h2{
+  display: flex;
+  justify-content: center;
+  margin: 0px 0px 37px 0px;
+  padding: 51PX;
+  background-color: #774e77;
+  COLOR: white;
+  font-weight: 800;
+  font-family: serif;
+  align-items: center;
+  border: 2px solid #a551a7;
+}
+.page{
+
+}
+tbale{
+  margin-top: 69px;
+}
+
+.top-filter{
+  padding: 10px 162px 10px 197px;
+  background: #e1e2eb;
+  border-radius: 5px;
+  border: 2px solid #daccda;
+  color: gray;
+
+}
+.card{
+  width: 27rem;
+  display: flex;
+  justify-content: center;
+  align-items: normal;
+}
+
+.card-header{
+  background-color: #774e77;
+    color: white;
+}
+h6{
+  font-size: smaller;
+}
+
+.pagination{
+  background-color: transparent;
+  margin: 16px 0px 12px 0px;
+  justify-content: space-between;
+}
+button{
+  padding: 8px 40px 8px 40px;
+  background: #755175d9;
+  border: 2px solid #ffffff00;
+  border-radius: 10px;
+  color: white;
+}

@@ -28,6 +28,7 @@ export class UserFormComponent implements OnInit {
     const userid = UserData[index - 1].id + 1;
     const username = (document.getElementById('userName') as HTMLInputElement)
       .value;
+    
     const workoutType = (document.getElementById('choices') as HTMLInputElement)
       .value;
     // const workoutTime = (document.getElementById("workoutTime") as HTMLInputElement).value;
@@ -38,8 +39,8 @@ export class UserFormComponent implements OnInit {
 
     const workouts = [{ type: workoutType, minutes: workoutTime }];
     const newuser: User = { id: userid, name: username, workouts: workouts };
-    const existingUser = UserData.find((user) => user.name === username);
-
+    const existingUser = UserData.find((user) => user.name.toLowerCase()== username.toLowerCase());
+    // console.log("jayshikha"+username.toLowerCase());
     if (!existingUser) {
       // User does not exist, add the new user
       const userid =
