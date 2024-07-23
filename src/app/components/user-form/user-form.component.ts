@@ -27,7 +27,7 @@ export class UserFormComponent implements OnInit {
     const index = UserData.length;
     const userid = UserData[index - 1].id + 1;
     const username = (document.getElementById('userName') as HTMLInputElement)
-      .value;
+      .value.trim();
     
     const workoutType = (document.getElementById('choices') as HTMLInputElement)
       .value;
@@ -47,7 +47,8 @@ export class UserFormComponent implements OnInit {
         UserData.length > 0 ? UserData[UserData.length - 1].id + 1 : 1;
       const newuser: User = { id: userid, name: username, workouts: workouts };
       this.userDataService.addUser(newuser);
-      console.log('New user added:', newuser);
+      alert("Data Added")
+      //console.log('New user added:', newuser);
     } else {
       const newWorkout = { type: workoutType, minutes: workoutTime };
 
@@ -55,9 +56,10 @@ export class UserFormComponent implements OnInit {
       existingUser.workouts.push(newWorkout);
 
       // Log updated UserData
-      console.log('Updated UserData:', UserData);
+      //console.log('Updated UserData:', UserData);
+      alert("Data Added")
     }
-    console.log(newuser);
+    //console.log(newuser);
   }
   ngOnInit(): void {}
 }

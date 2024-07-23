@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { User, Workout } from '../../user-data';
 import { UserDataService } from '../../user-data.service';
 import { FormsModule } from '@angular/forms';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-workout-list',
@@ -18,7 +19,7 @@ export class WorkoutListComponent implements OnInit {
   workoutTypes: any;
   currentPage: number = 1;
   itemsPerPage: number = 5; // Default items per page
-  totalPages: number = 0;
+  totalPages: number = 2;
   constructor(private userDataService: UserDataService) {
     const dropdown = this.userDataService.getUsers().flatMap((a) => a.workouts);
     const dropdownfinal = Array.from(new Set(dropdown.map((b) => b.type)));
@@ -26,7 +27,13 @@ export class WorkoutListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.users = this.userDataService.getUsers();
+    //this.users = this.userDataService.getUsers();
+  
+      this.userDataService.getWokoutList()
+      .pipe(take(1))  // Updated to take the first emission
+      .subscribe(users => {
+        this.users = users.slice(0, 5); // Take the first 5 users from the array
+      });
   }
 
   getTotalMinutes(userId: number): number {
@@ -96,6 +103,7 @@ export class WorkoutListComponent implements OnInit {
   }
 
   nextPage(): void {
+    //alert();
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
       this.fetchUsers();

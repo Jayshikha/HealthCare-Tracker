@@ -1,7 +1,22 @@
 
-<div>
-   <app-navbar></app-navbar>
-    <app-user-form></app-user-form>
-    <app-workout-list></app-workout-list>
-    <app-workout-chart></app-workout-chart>
+   <div class="navbar">
+    <div class="logo"></div>
+    <div class="right">
+      <ul class="nav">
+        <li>
+          <a routerLink="home" routerLinkActive="active">Home</a>
+        </li>
+        <li>
+          <a routerLink="list" routerLinkActive="active">List</a>
+        </li>
+        <li>
+          <a routerLink="chart" routerLinkActive="active">Graph</a>
+        </li>
+        <li>
+          <a href="https://www.linkedin.com/in/jayshikha-namdev-305a42246" target="_blank">Contact Us</a>
+        </li>
+      </ul>
+    </div>
   </div>
+  <router-outlet></router-outlet>
+  

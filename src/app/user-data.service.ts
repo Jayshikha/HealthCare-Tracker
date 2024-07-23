@@ -24,4 +24,9 @@ getTotalUsersCount(): number {
   return this.users.length;
 }
 
+
+getWokoutList(): Observable<User[]> {
+  //console.log('Fetching users:', this.users); 
+  return of(this.users);
+}
 }

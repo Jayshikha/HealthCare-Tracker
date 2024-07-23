@@ -1,17 +1,10 @@
-.conatiner{
 
-}
 .top{
 display: flex;
 justify-content: space-between;
 margin: 49px;
 }
-.search{
 
-}
-.filter{
-
-}
 .heading h2{
   display: flex;
   justify-content: center;
@@ -24,9 +17,7 @@ margin: 49px;
   align-items: center;
   border: 2px solid #a551a7;
 }
-.page{
 
-}
 tbale{
   margin-top: 69px;
 }
@@ -65,4 +56,20 @@ button{
   border: 2px solid #ffffff00;
   border-radius: 10px;
   color: white;
+}
+
+@media (max-width: 768px) {
+  .top{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .top-filter{
+    padding: 10px 100px 10px 100px;
+    margin: 0em 0em 1em 0em;
+    width: 24em;
+  }
+  .heading h2{
+    width: 112%;
+  }
 }
